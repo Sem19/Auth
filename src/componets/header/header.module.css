@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 40px;
+  align-items: center;
+  background: #316fea;
+}
+.acount {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+.header_button {
+  padding: 6px 12px;
+  background: white;
+  color: #316fea;
+  transition: background-color 0.3s ease;
+}
+.header_button:hover {
+  background-color: #c1cace;
+}

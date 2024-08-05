@@ -4,21 +4,29 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const loginApi = createApi({
   reducerPath: "loginApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://auth-qa.qencode.com/v1/",
+    baseUrl: "https://auth-qa.qencode.com/",
   }),
   tagTypes: ["login"],
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (body) => ({
-        url: `auth/login`,
+        url: `v1/auth/login`,
         method: "POST",
         body,
       }),
       invalidatesTags: ["login"],
+    }),
+    getHealth: builder.query({
+      query: () => ({
+        url: `healthcheck`,
+      }),
+      keepUnusedDataFor: 0,
+
+      providesTags: ["mcrsProfile"],
     }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useLoginMutation } = loginApi;
+export const { useLoginMutation, useGetHealthQuery } = loginApi;
