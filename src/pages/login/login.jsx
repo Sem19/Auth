@@ -12,6 +12,7 @@ import {
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const {
@@ -99,9 +100,9 @@ const Login = () => {
               placeholder="Password"
               {...register("password", {})}
             />
-            <a href="/forgot" className={styles.forgotPassword}>
+            <Link to="/forgot" className={styles.forgotPassword}>
               Forgot your password?
-            </a>
+            </Link>
           </div>
 
           <button className={styles.button} type="submit">
