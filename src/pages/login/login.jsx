@@ -24,7 +24,6 @@ const Login = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const onSubmit = ({ email, password }) => {
-    console.log(1);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
