@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <nav className={styles.header}>
-      <h1>Logo</h1>
+      <h1>Logoaaaa</h1>
 
       <ul className={styles.NavLinks}>
         <li>
