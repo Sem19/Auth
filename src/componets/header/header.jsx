@@ -1,13 +1,21 @@
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import styles from "./../header/header.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../../assets/logo_white.svg";
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <nav className={styles.header}>
-      <h1>Logoaaaa</h1>
-
+      <img
+        className={styles.logo}
+        src={logo}
+        alt="logo"
+        width={170}
+        height={22}
+        onClick={() => navigate}
+      />
       <ul className={styles.NavLinks}>
         <li>
           <Link to="/" className={styles.NavLink}>

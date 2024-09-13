@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 const Login = () => {
   const {
     register,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -31,8 +32,15 @@ const Login = () => {
         setIsLoggedIn(true);
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        console.log(error);
+        setError(
+          "email",
+          {
+            type: "string",
+            message: "Wrong email or password",
+          },
+          { shouldFocus: true }
+        );
       });
   };
 
@@ -88,10 +96,18 @@ const Login = () => {
             <input
               id="email"
               placeholder="Enter your email"
-              {...register("email", { required: "Email is required" })}
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^\S+@\S+\.\S+$/,
+                  message: "Incorrect format Email",
+                },
+              })}
             />
 
-            {errors.email && <p>{errors.email.message}</p>}
+            {errors.email && (
+              <p style={{ color: "red" }}>{errors.email.message}</p>
+            )}
           </div>
           <div>
             <input

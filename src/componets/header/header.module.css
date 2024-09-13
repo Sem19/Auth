@@ -19,3 +19,6 @@
 .header_button:hover {
   background-color: #c1cace;
 }
+.logo {
+  cursor: pointer;
+}

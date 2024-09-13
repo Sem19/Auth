@@ -2,29 +2,25 @@ import { useForm } from "react-hook-form";
 import styles from "./forgot-password.module.css";
 import logo from "../../assets/logo.svg";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
 import { auth } from "../../firebase-config";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { useNavigate } from "react-router";
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [cancel, setCancel] = useState(false);
+
   const [message, setMessage] = useState("");
 
   const onSubmit = async (data) => {
-    try {
-      await sendPasswordResetEmail(auth, data.email);
-      setMessage("Password reset email sent! Please check your inbox.");
-    } catch (error) {
-      setMessage(`Error: ${error.message}`);
-    }
+    sendPasswordResetEmail(auth, data.email)
+      .then(() => console.log("success"))
+      .catch((error) => console.log("error"));
   };
-
-  if (cancel) return <Navigate to="/login" />;
 
   return (
     <div className={styles.container}>
@@ -55,7 +51,7 @@ const ForgotPassword = () => {
           <button
             className={styles.cancel_button}
             type="button"
-            onClick={() => setCancel(true)}
+            onClick={() => navigate("/login")}
           >
             Cancel
           </button>
