@@ -118,7 +118,10 @@ button {
 button:hover {
   background-color: #255abc;
 }
-
+.button:disabled {
+  pointer-events: none;
+  background: #5278c5;
+}
 .forgotPassword {
   float: right;
   display: block;

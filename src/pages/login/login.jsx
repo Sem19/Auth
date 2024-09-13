@@ -13,6 +13,8 @@ import {
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateIsLogin } from "../../features/login/login-slice";
 
 const Login = () => {
   const {
@@ -22,17 +24,18 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+  const isLoggedIn = useSelector((state) => state.login.isLogined);
 
   const onSubmit = ({ email, password }) => {
+    setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(userCredential);
-        setIsLoggedIn(true);
+        dispatch(updateIsLogin(true));
       })
       .catch((error) => {
-        console.log(error);
         setError(
           "email",
           {
@@ -41,7 +44,8 @@ const Login = () => {
           },
           { shouldFocus: true }
         );
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   // const handleGoogleLogin = () => {
@@ -120,8 +124,8 @@ const Login = () => {
             </Link>
           </div>
 
-          <button className={styles.button} type="submit">
-            Log in to Qencode
+          <button className={styles.button} type="submit" disabled={isLoading}>
+            {isLoading ? "Loading ..." : "Log in to Qencode"}
           </button>
         </form>
         <div className={styles.sign_up_link}>

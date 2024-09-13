@@ -2,12 +2,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { loginApi } from "../services/login";
 import authReducer from "../features/auth/auth-slice";
-import formReducer from "../features/form/form-slice";
+import loginReducer from "../features/login/login-slice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    form: formReducer,
+    login: loginReducer,
     [loginApi.reducerPath]: loginApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
