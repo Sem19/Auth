@@ -3,20 +3,22 @@ import { Navigate, Outlet } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useDispatch, useSelector } from "react-redux";
-import { updateIsLogin } from "../features/login/login-slice";
+import { updateUserName } from "../features/login/login-slice";
 
 export function PrivateRoute(props) {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.login.isLogined);
+  const userName = useSelector((state) => state.login.userName);
+  const isAuthenticated = !!userName;
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setIsLoading(false);
-      dispatch(updateIsLogin(!!user));
+      dispatch(updateUserName(user.email));
     });
   }, []);
+  console.log(userName);
 
   if (isLoading) return <div>loading...</div>;
-  if (isLoggedIn) return <Outlet {...props} />;
+  if (isAuthenticated) return <Outlet {...props} />;
   else return <Navigate to={"/login"} />;
 }

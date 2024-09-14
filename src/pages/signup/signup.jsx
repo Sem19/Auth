@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import app, { auth } from "../../firebase-config";
+import { auth } from "../../firebase-config";
 import styles from "./signup.module.css";
 import logo from "../../assets/logo.svg";
 
@@ -12,17 +12,7 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = ({ email, password }) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        console.log("User signed up:", user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(`Error (${errorCode}): ${errorMessage}`);
-      });
+    createUserWithEmailAndPassword(auth, email, password);
   };
   return (
     <div className={styles.container}>

@@ -1,20 +1,13 @@
 import { useForm } from "react-hook-form";
-import { useGetHealthQuery, useLoginMutation } from "../../services/login";
 import styles from "./login.module.css";
 import logo from "../../assets/logo.svg";
-import google from "../../assets/google.svg";
-import github from "../../assets/github.svg";
-import app, { auth } from "../../firebase-config";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-import { useEffect, useState } from "react";
+import { auth } from "../../firebase-config";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
 import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateIsLogin } from "../../features/login/login-slice";
+import { updateUserName } from "../../features/login/login-slice";
 
 const Login = () => {
   const {
@@ -26,16 +19,14 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const isLoggedIn = useSelector((state) => state.login.isLogined);
+  const userName = useSelector((state) => state.login.userName);
+  const isAuthenticated = !!userName;
 
   const onSubmit = ({ email, password }) => {
     setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        dispatch(updateIsLogin(true));
-      })
-      .catch((error) => {
+      .then(() => dispatch(updateUserName(email)))
+      .catch(() => {
         setError(
           "email",
           {
@@ -48,14 +39,7 @@ const Login = () => {
       .finally(() => setIsLoading(false));
   };
 
-  // const handleGoogleLogin = () => {
-  //   console.log("Login with Google");
-  // };
-  // const handleGithubLogin = () => {
-  //   console.log("Login with Google");
-  // };
-
-  if (isLoggedIn) return <Navigate to="/" />;
+  if (isAuthenticated) return <Navigate to="/" />;
 
   return (
     <div className={styles.container}>
@@ -69,31 +53,7 @@ const Login = () => {
             height={32}
           />
           <h1 className={styles.title}>Log in to your account</h1>
-          {/* <div className={styles.quick_login}>
-          <button className={styles.google_button} onClick={handleGoogleLogin}>
-            <div className={styles.iconContainer}>
-              <img src={google} alt="Google" className={styles.socialIcon} />
-              <span>Google</span>
-            </div>
-          </button>
-          <button className={styles.github_button} onClick={handleGithubLogin}>
-            <div className={styles.iconContainer}>
-              <img src={github} alt="GitHub" className={styles.socialIcon} />
-              <span>GitHub</span>
-            </div>
-          </button>
-        </div> */}
         </div>
-        {/* <div
-        style={{ display: "flex", justifyContent: "center", marginBottom: 30 }}
-      >
-        <div className={styles.line_with_or}>
-          <hr className={styles.line} />
-
-          <span className={styles.or}>OR</span>
-          <hr className={styles.line} />
-        </div>
-      </div> */}
 
         <form onSubmit={handleSubmit(onSubmit)} className={styles.my_form}>
           <div>

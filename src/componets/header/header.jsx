@@ -1,13 +1,12 @@
-import { signOut } from "firebase/auth";
-import { auth } from "../../firebase-config";
 import styles from "./../header/header.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo_white.svg";
 import { useSelector } from "react-redux";
-// onClick={() => signOut(auth)}
+import AccountMenu from "../account-menu/account-menu.jsx";
 
 const Header = () => {
-  const isLogined = useSelector((state) => state.login.isLogined);
+  const userName = useSelector((state) => state.login.userName);
+  const isAuthenticated = !!userName;
   const navigate = useNavigate();
   return (
     <nav className={styles.header}>
@@ -19,9 +18,11 @@ const Header = () => {
         height={22}
         onClick={() => navigate("/login")}
       />
-      <div className={styles.acount}>
-        {isLogined && <button onClick={() => signOut(auth)}>Log out</button>}
-      </div>
+      {userName && (
+        <div className={styles.acount}>
+          {isAuthenticated && <AccountMenu />}
+        </div>
+      )}
     </nav>
   );
 };

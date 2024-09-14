@@ -26,7 +26,7 @@ const ResetPassword = () => {
     }
     const auth = getAuth();
 
-    updatePassword(auth.currentUser, password).then((res) => signOut(auth));
+    updatePassword(auth.currentUser, password).then(() => signOut(auth));
   };
 
   return (
