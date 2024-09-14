@@ -20,7 +20,8 @@ const Header = () => {
       />
       {userName && (
         <div className={styles.acount}>
-          {isAuthenticated && <AccountMenu />}
+          <p style={{ color: "white" }}>{userName}</p>
+          <AccountMenu />
         </div>
       )}
     </nav>

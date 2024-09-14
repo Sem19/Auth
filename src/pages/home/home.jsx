@@ -1,5 +1,6 @@
 import styles from "./home.module.css";
 import logo from "../../assets/logo.svg";
+import firelogo from "../../assets/logo_f.svg";
 
 const Home = () => {
   return (
@@ -13,7 +14,7 @@ const Home = () => {
             width={180}
             height={32}
           />
-          <h1 className={styles.title}>Wellcome</h1>
+          <img src={firelogo} width={640} height={340} alt="firebase" />
         </div>
       </div>
     </div>
