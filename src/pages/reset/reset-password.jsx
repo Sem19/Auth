@@ -1,15 +1,34 @@
 import styles from "./reset-password.module.css";
 import logo from "../../assets/logo.svg";
 import { useForm } from "react-hook-form";
+import { getAuth, signOut, updatePassword } from "firebase/auth";
 
 const ResetPassword = () => {
   const {
     register,
+    setError,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
 
-  const onSubmit = () => {};
+  const onSubmit = ({ password, confirm_password }) => {
+    if (password !== confirm_password) {
+      setError(
+        "password",
+        {
+          type: "string",
+          message: "Password dont match with confirm",
+        },
+        { shouldFocus: true }
+      );
+      return;
+    }
+    const auth = getAuth();
+
+    updatePassword(auth.currentUser, password).then((res) => signOut(auth));
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.login}>
@@ -24,6 +43,10 @@ const ResetPassword = () => {
           <h1 className={styles.title}>Create new Password?</h1>
         </div>
 
+        {/* {errors?.password && (
+          <p className={styles.message}>{errors?.password.message}</p>
+        )} */}
+
         <form onSubmit={handleSubmit(onSubmit)} className={styles.my_form}>
           <div className={styles.input_container}>
             <label htmlFor="password" className={styles.label}>
@@ -33,9 +56,18 @@ const ResetPassword = () => {
               id="password"
               type="password"
               placeholder="Password"
-              {...register("password", {})}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters long",
+                },
+              })}
               className={styles.input}
             />
+            {errors.password && (
+              <p className={styles.error}>{errors.password.message}</p>
+            )}
           </div>
           <div className={styles.input_container}>
             <label className={styles.label} htmlFor="confirm_password">
@@ -45,9 +77,16 @@ const ResetPassword = () => {
               id="confirm_password"
               type="password"
               placeholder="Confirm Password"
-              {...register("confirm_password", {})}
+              {...register("confirm_password", {
+                required: "Please confirm your password",
+                validate: (value) =>
+                  value === watch("password") || "Password do not match",
+              })}
               className={styles.input}
             />
+            {errors.confirm_password && (
+              <p className={styles.error}>{errors.confirm_password.message}</p>
+            )}
           </div>
 
           <button className={styles.button} type="submit">

@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -16,7 +17,7 @@ const ForgotPassword = () => {
 
   const [message, setMessage] = useState("");
 
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
     sendPasswordResetEmail(auth, data.email)
       .then(() => console.log("success"))
       .catch((error) => console.log("error"));

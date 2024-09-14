@@ -11,13 +11,11 @@ export function PrivateRoute(props) {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log(user);
       setIsLoading(false);
-      dispatch(updateIsLogin(true));
+      dispatch(updateIsLogin(!!user));
     });
   }, []);
 
-  // console.log(isLoading);
   if (isLoading) return <div>loading...</div>;
   if (isLoggedIn) return <Outlet {...props} />;
   else return <Navigate to={"/login"} />;

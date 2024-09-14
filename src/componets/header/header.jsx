@@ -3,8 +3,11 @@ import { auth } from "../../firebase-config";
 import styles from "./../header/header.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo_white.svg";
+import { useSelector } from "react-redux";
+// onClick={() => signOut(auth)}
 
 const Header = () => {
+  const isLogined = useSelector((state) => state.login.isLogined);
   const navigate = useNavigate();
   return (
     <nav className={styles.header}>
@@ -14,25 +17,10 @@ const Header = () => {
         alt="logo"
         width={170}
         height={22}
-        onClick={() => navigate}
+        onClick={() => navigate("/login")}
       />
-      <ul className={styles.NavLinks}>
-        <li>
-          <Link to="/" className={styles.NavLink}>
-            Home
-          </Link>
-        </li>
-      </ul>
       <div className={styles.acount}>
-        <p>Acount</p>
-        <div>
-          <button
-            className={styles.header_button}
-            onClick={() => signOut(auth)}
-          >
-            LogOut
-          </button>
-        </div>
+        {isLogined && <button onClick={() => signOut(auth)}>Log out</button>}
       </div>
     </nav>
   );

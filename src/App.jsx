@@ -27,6 +27,14 @@ function App() {
                   </ErrorBoundary>
                 }
               />
+              <Route
+                path="/reset"
+                element={
+                  <ErrorBoundary>
+                    <ResetPassword />
+                  </ErrorBoundary>
+                }
+              />
             </Route>
             <Route
               path="/login"
@@ -49,14 +57,6 @@ function App() {
               element={
                 <ErrorBoundary>
                   <ForgotPassword />
-                </ErrorBoundary>
-              }
-            />
-            <Route
-              path="/reset"
-              element={
-                <ErrorBoundary>
-                  <ResetPassword />
                 </ErrorBoundary>
               }
             />
