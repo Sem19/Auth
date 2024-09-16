@@ -2,7 +2,8 @@ import styles from "./reset-password.module.css";
 import logo from "../../assets/logo.svg";
 import { useForm } from "react-hook-form";
 import { getAuth, signOut, updatePassword } from "firebase/auth";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ResetPassword = () => {
   const {
@@ -27,10 +28,14 @@ const ResetPassword = () => {
     }
     const auth = getAuth();
 
-    updatePassword(auth.currentUser, password).then(() => signOut(auth));
+    updatePassword(auth.currentUser, password).then(() => {
+      setTimeout(() => {
+        signOut(auth);
+      }, 7000);
+    });
     toast.success("Password successfully changed!", {
       position: "top-right",
-      autoClose: 3000,
+      autoClose: 6000,
     });
   };
 
@@ -95,6 +100,7 @@ const ResetPassword = () => {
           </button>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

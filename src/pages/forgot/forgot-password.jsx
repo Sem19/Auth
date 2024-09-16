@@ -4,6 +4,8 @@ import logo from "../../assets/logo.svg";
 import { auth } from "../../firebase-config";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from "react-router";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ForgotPassword = () => {
   const navigate = useNavigate();
@@ -15,7 +17,12 @@ const ForgotPassword = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    sendPasswordResetEmail(auth, data.email);
+    sendPasswordResetEmail(auth, data.email).then(() => {
+      toast.success("The password change form has been sent to the mail");
+      setTimeout(() => {
+        navigate("/login");
+      }, 5000);
+    });
   };
 
   return (
@@ -53,6 +60,7 @@ const ForgotPassword = () => {
           </button>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };

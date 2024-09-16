@@ -8,7 +8,6 @@ import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserName } from "../../features/login/login-slice";
-import { CircularProgress } from "@mui/material";
 
 const Login = () => {
   const {
@@ -88,7 +87,7 @@ const Login = () => {
           </div>
 
           <button className={styles.button} type="submit" disabled={isLoading}>
-            {isLoading ? <CircularProgress size={15} /> : "Log in to Qencode"}
+            {isLoading ? "Loading ..." : "Log in to Qencode"}
           </button>
         </form>
         <div className={styles.sign_up_link}>
