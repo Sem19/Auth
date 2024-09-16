@@ -18,7 +18,7 @@ const Header = () => {
         height={22}
         onClick={() => navigate("/login")}
       />
-      {userName && (
+      {isAuthenticated && (
         <div className={styles.acount}>
           <p style={{ color: "white" }}>{userName}</p>
           <AccountMenu />

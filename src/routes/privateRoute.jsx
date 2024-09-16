@@ -10,15 +10,21 @@ export function PrivateRoute(props) {
   const userName = useSelector((state) => state.login.userName);
   const isAuthenticated = !!userName;
   const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      setIsLoading(false);
-      dispatch(updateUserName(user.email));
-    });
-  }, []);
-  console.log(userName);
 
-  if (isLoading) return <div>loading...</div>;
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(updateUserName(user.email));
+      } else {
+        dispatch(updateUserName(null));
+      }
+      setIsLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [dispatch]);
+
+  if (isLoading) return <div>Loading...</div>;
   if (isAuthenticated) return <Outlet {...props} />;
-  else return <Navigate to={"/login"} />;
+  else return <Navigate to="/login" />;
 }

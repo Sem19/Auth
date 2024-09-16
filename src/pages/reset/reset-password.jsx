@@ -2,6 +2,7 @@ import styles from "./reset-password.module.css";
 import logo from "../../assets/logo.svg";
 import { useForm } from "react-hook-form";
 import { getAuth, signOut, updatePassword } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const ResetPassword = () => {
   const {
@@ -15,10 +16,10 @@ const ResetPassword = () => {
   const onSubmit = ({ password, confirm_password }) => {
     if (password !== confirm_password) {
       setError(
-        "password",
+        "confirm_password",
         {
           type: "string",
-          message: "Password dont match with confirm",
+          message: "Password dont match with confirm password",
         },
         { shouldFocus: true }
       );
@@ -27,6 +28,10 @@ const ResetPassword = () => {
     const auth = getAuth();
 
     updatePassword(auth.currentUser, password).then(() => signOut(auth));
+    toast.success("Password successfully changed!", {
+      position: "top-right",
+      autoClose: 3000,
+    });
   };
 
   return (

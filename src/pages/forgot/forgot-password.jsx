@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import styles from "./forgot-password.module.css";
 import logo from "../../assets/logo.svg";
-import { useState } from "react";
 import { auth } from "../../firebase-config";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from "react-router";
@@ -15,12 +14,8 @@ const ForgotPassword = () => {
     formState: { errors },
   } = useForm();
 
-  const [message, setMessage] = useState("");
-
   const onSubmit = (data) => {
-    sendPasswordResetEmail(auth, data.email)
-      .then(() => console.log("success"))
-      .catch((error) => console.log("error"));
+    sendPasswordResetEmail(auth, data.email);
   };
 
   return (
@@ -57,7 +52,6 @@ const ForgotPassword = () => {
             Cancel
           </button>
         </form>
-        {message && <p>{message}</p>}
       </div>
     </div>
   );

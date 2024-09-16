@@ -8,6 +8,7 @@ import { Navigate } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserName } from "../../features/login/login-slice";
+import { CircularProgress } from "@mui/material";
 
 const Login = () => {
   const {
@@ -25,7 +26,9 @@ const Login = () => {
   const onSubmit = ({ email, password }) => {
     setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
-      .then(() => dispatch(updateUserName(email)))
+      .then(() => {
+        dispatch(updateUserName(email));
+      })
       .catch(() => {
         setError(
           "email",
@@ -85,14 +88,14 @@ const Login = () => {
           </div>
 
           <button className={styles.button} type="submit" disabled={isLoading}>
-            {isLoading ? "Loading ..." : "Log in to Qencode"}
+            {isLoading ? <CircularProgress size={15} /> : "Log in to Qencode"}
           </button>
         </form>
         <div className={styles.sign_up_link}>
           <span>Is your company new to Qencode? </span>
-          <a href="/signup" className={styles.sign_up}>
+          <Link href="/signup" className={styles.sign_up}>
             Sign up
-          </a>
+          </Link>
         </div>
       </div>
     </div>
